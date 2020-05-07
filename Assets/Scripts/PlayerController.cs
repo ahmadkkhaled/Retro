@@ -8,19 +8,18 @@ public class PlayerController : MonoBehaviour
     public float mouseSensitivity = 1f;
     public Camera viewCamera;
     public GameObject bulletImpact;
+    public Animator gunAnimator;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
     private Vector2 _mouseInput;
     private int ammo;
-    private static PlayerController _instance;
-    public static PlayerController Instance { get 
-        { return _instance; }
-    }
+
+    public static PlayerController Instance { get; private set; }
 
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
     }
 
     void Start()
@@ -57,6 +56,7 @@ public class PlayerController : MonoBehaviour
             }
 
             ammo--;
+            gunAnimator.SetTrigger("Shoot");
         }
     }
 }
