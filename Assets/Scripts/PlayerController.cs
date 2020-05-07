@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
     private Vector2 _mouseInput;
-    private int ammo;
+    private int _ammo;
 
     public static PlayerController Instance { get; private set; }
 
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        ammo = 30;
+        _ammo = 8;
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         viewCamera.transform.localRotation = Quaternion.Euler(viewCamera.transform.localRotation.eulerAngles + new Vector3(0f, _mouseInput.y, 0f));
 
         // Shooting
-        if (Input.GetMouseButtonDown(0) && ammo > 0)
+        if (Input.GetMouseButtonDown(0) && _ammo > 0)
         {
             Ray ray = viewCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
             RaycastHit hit;
@@ -55,8 +55,14 @@ public class PlayerController : MonoBehaviour
                 Instantiate(bulletImpact, hit.point, transform.rotation);
             }
 
-            ammo--;
+            _ammo--;
             gunAnimator.SetTrigger("Shoot");
+            Debug.Log(_ammo);
         }
+    }
+
+    public void addAmmo(int ammo)
+    {
+        _ammo = Mathf.Min(25, _ammo + ammo);
     }
 }
