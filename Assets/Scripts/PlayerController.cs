@@ -6,15 +6,27 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float mouseSensitivity = 1f;
-    public Transform viewCamera;
+    public Camera viewCamera;
+    public GameObject bulletImpact;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
     private Vector2 _mouseInput;
+    private int ammo;
+    private static PlayerController _instance;
+    public static PlayerController Instance { get 
+        { return _instance; }
+    }
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        ammo = 30;
     }
 
     // Update is called once per frame
@@ -32,6 +44,19 @@ public class PlayerController : MonoBehaviour
         _mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z - _mouseInput.x);
 
-        viewCamera.localRotation = Quaternion.Euler(viewCamera.localRotation.eulerAngles + new Vector3(0f, _mouseInput.y, 0f));
+        viewCamera.transform.localRotation = Quaternion.Euler(viewCamera.transform.localRotation.eulerAngles + new Vector3(0f, _mouseInput.y, 0f));
+
+        // Shooting
+        if (Input.GetMouseButtonDown(0) && ammo > 0)
+        {
+            Ray ray = viewCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit))
+            {
+                Instantiate(bulletImpact, hit.point, transform.rotation);
+            }
+
+            ammo--;
+        }
     }
 }
