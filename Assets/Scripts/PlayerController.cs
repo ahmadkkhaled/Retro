@@ -53,11 +53,14 @@ public class PlayerController : MonoBehaviour
             if(Physics.Raycast(ray, out hit))
             {
                 Instantiate(bulletImpact, hit.point, transform.rotation);
+                if (hit.transform.tag.Equals("Enemy"))
+                {
+                    hit.transform.parent.GetComponent<EnemyController>().TakeDamage();
+                }
             }
 
             _ammo--;
             gunAnimator.SetTrigger("Shoot");
-            Debug.Log(_ammo);
         }
     }
 
