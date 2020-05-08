@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public GameObject deathScreen;
     public Animator gunAnimator;
     public int maxHealth = 100;
+    public HealthBar healthUI;
+    public Text ammoUI;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
@@ -19,7 +20,20 @@ public class PlayerController : MonoBehaviour
     private int _health;
     private bool _isDead;
 
+
     public static PlayerController Instance { get; private set; }
+    public int Ammo
+    {
+        get
+        {
+            return _ammo;
+        }
+        set
+        {
+            _ammo = value;
+            ammoUI.text = _ammo.ToString();
+        }
+    }
 
     private void Awake()
     {
@@ -29,9 +43,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _ammo = 8;
+        Ammo = 8;
         _isDead = false;
+
         _health = maxHealth;
+        healthUI.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -67,19 +83,15 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            _ammo--;
+            Ammo--;
             gunAnimator.SetTrigger("Shoot");
         }
     }
 
-    public void addAmmo(int ammo)
-    {
-        _ammo = Mathf.Min(25, _ammo + ammo);
-    }
-
     public void TakeDamage(int damage)
     {
-        _health -= damage;
+        _health = Mathf.Max(0, _health - damage);
+        healthUI.SetHealth(_health);
         if(_health <= 0)
         {
             deathScreen.SetActive(true);
@@ -87,7 +99,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // TODO: return bool to prevent health pickup on max health
     public void AddHealth(int amount)
     {
         _health = Mathf.Min(maxHealth, _health + amount);

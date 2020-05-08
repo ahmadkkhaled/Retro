@@ -10,7 +10,7 @@ public class AmmoPickup : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            PlayerController.Instance.addAmmo(amount);
+            PlayerController.Instance.Ammo += amount;
             Destroy(gameObject);
         }
     }
