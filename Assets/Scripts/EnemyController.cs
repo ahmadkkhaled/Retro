@@ -6,14 +6,19 @@ public class EnemyController : MonoBehaviour
 {
     public int health;
     public GameObject explosion;
-    public float rushField = 10f;
+    public GameObject bullet;
+    public float rushField = 15f;
     public float moveSpeed = 2;
+    public float fireRate = 0.5f;
+    public Transform bulletOrigin;
 
     private Rigidbody2D _rb;
-    // Start is called before the first frame update
+    private float _shotCounter;
+    
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _shotCounter = 0;
     }
 
     // Update is called once per frame
@@ -23,6 +28,13 @@ public class EnemyController : MonoBehaviour
         {
             Vector3 playerDirection = PlayerController.Instance.transform.position - transform.position;
             _rb.velocity = playerDirection.normalized * moveSpeed;
+
+            _shotCounter -= Time.deltaTime;
+            if(_shotCounter <= 0)
+            {
+                Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+                _shotCounter = fireRate;
+            }
         }
         else
         {
