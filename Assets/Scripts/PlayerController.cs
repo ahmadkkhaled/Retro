@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletImpact;
     public GameObject deathScreen;
     public Animator gunAnimator;
+    public Animator movementAnimator;
     public int maxHealth = 100;
     public HealthBar healthUI;
     public Text ammoUI;
@@ -57,7 +58,14 @@ public class PlayerController : MonoBehaviour
 
         // Keyboard movement
         _moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        
+        if(_moveInput != Vector2.zero)
+        {
+            movementAnimator.SetBool("isMoving", true);
+        }
+        else
+        {
+            movementAnimator.SetBool("isMoving", false);
+        }
         Vector3 moveHorizontal = transform.up * _moveInput.x * -1;
         Vector3 moveVertical = transform.right * _moveInput.y;
 

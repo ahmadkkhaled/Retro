@@ -721,6 +721,7 @@ GameObject:
   - component: {fileID: 62746274}
   - component: {fileID: 62746273}
   - component: {fileID: 62746276}
+  - component: {fileID: 62746277}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -768,6 +769,7 @@ MonoBehaviour:
     type: 3}
   deathScreen: {fileID: 662428754}
   gunAnimator: {fileID: 1695667359}
+  movementAnimator: {fileID: 62746277}
   maxHealth: 100
   healthUI: {fileID: 30852085}
   ammoUI: {fileID: 819845176}
@@ -802,6 +804,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!95 &62746277
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62746272}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 325a91047fafd9c44800b4323aa31599, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &66186997
 GameObject:
   m_ObjectHideFlags: 0
